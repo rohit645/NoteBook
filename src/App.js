@@ -2,9 +2,32 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import noteService from './services/Note'
 
+const duplicate = (value, data) => {
+	console.log('value', value);
+	var ans = false
+	data.forEach(ele => {
+		console.log('ele.content',ele.content)
+		if(ele.content.toLowerCase() === value.toLowerCase()) {
+			ans = true
+		}
+	});
+	return ans
+}
+
+const Error = (content, errorHandler, notehandler) => {
+	errorHandler(content)
+	notehandler('')
+	setTimeout(() => {
+		errorHandler(null)
+	}, 3000);
+}
+
 const App = () => {
 	const [notes, setnotes] = useState([])
-	const [newNote, setnewNote] = useState('hey')
+	const [newNote, setnewNote] = useState('')
+	const [errorMessage, seterrorMessage] = useState('')
+	const [showAll, setshowAll] = useState(true)
+
 	console.log(notes)
 	
 	const fetchData = () => {
@@ -25,8 +48,11 @@ const App = () => {
 	
 	const addNote = (event) => {
 		event.preventDefault()
-		console.log('inside add note', newNote)
-		console.log('inside add note',notes)
+		if (duplicate(newNote, notes)) {
+			const message = `note with content "${newNote}" is duplicate`
+			Error(message ,seterrorMessage, setnewNote)
+			return
+		}
 		const newObject = {
 			id: notes.length + 1,
 			content: newNote,
@@ -42,6 +68,17 @@ const App = () => {
 		})
 	}
 
+	const Notification = ({message}) => {
+		if (message === null) {
+		}
+		
+		return(
+			<div className="error">
+				{message}	
+			</div>
+		)
+	}
+
 	const changeimportance = (id) => {
 		const note = notes.find(note => note.id === id)
 		const changedNote = {
@@ -54,26 +91,37 @@ const App = () => {
 			setnotes(notes.map(note => note.id === id ? updatedData : note))
 		})
 		.catch(error => {
-			alert(`note with content "${note.content}" not found in our database`)
+			const message = `note with content "${note.content}" not found in our database`
+			Error(message ,seterrorMessage, setnewNote)
 		})
+		setnotes(notes.filter(note => note.id !== id))	
 	}
 
 	const Note = ({note}) => {
 		const label = note.important ? 'make not important' : 'make important'
+		if(!showAll && !note.important) return null
+
 		return(
-			<li key={note.id}>{note.content}
+			<li className="note">{note.content}
 				<button onClick = {() => changeimportance(note.id)}> {label} </button>
 			</li>
 		)	
 	}
-	
 	return(
 		<div>
-		<p>Fetched data</p>
+		<h1>Fetched data</h1>
+			show important
+		<button onClick={() => setshowAll(!showAll)}>
+			Show Important 	
+		</button>
 		<ul>
 			{notes.map((note) => <Note note = {note} key = {note.id} />)}
 		</ul>
+		<Notification message = {errorMessage} />
 		<form onSubmit={addNote}>
+			<h1>
+				Add new notes here!
+			</h1>
 			<input value={newNote} onChange={handleNoteChange} id="first"/>
 			<button type="submit"> 
 				Add
