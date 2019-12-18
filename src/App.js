@@ -107,6 +107,7 @@ const App = () => {
 			</li>
 		)	
 	}
+							
 	return(
 		<div>
 		<h1>Fetched data</h1>
