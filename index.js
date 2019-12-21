@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
+var port = process.end.PORT || 3001
 // convert json obejct of req.body into javascript object and attaches it again to req.body 
 // before its route handle app.post is called 
 app.use(bodyParser.json())
@@ -80,6 +80,7 @@ app.delete('/notes/:id', (req, res) => {
     notes = notes.filter(note => note.id !== id)
     res.status(204).end()
 })
-const port = 3001
-app.listen(port)
-console.log(`server listening at port ${port}`)
+
+app.listen(port, () => {
+    console.log(`server listening at port ${port}`)
+})
