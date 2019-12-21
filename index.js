@@ -8,6 +8,7 @@ var port = process.env.PORT || 3001
 // before its route handle app.post is called 
 app.use(bodyParser.json())
 app.use(cors())
+app.use(express.static('build'))
 
 var notes =  [
       {
@@ -36,6 +37,7 @@ const generateId = () => {
 }
 
 app.get('/', (req, res) => {
+    console.log('Hey it s a home page!')
     res.send('<h1>Hello world!!</h1>')
 })
 
