@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-var port = process.end.PORT || 3001
+var port = process.env.PORT || 3001
 // convert json obejct of req.body into javascript object and attaches it again to req.body 
 // before its route handle app.post is called 
 app.use(bodyParser.json())
