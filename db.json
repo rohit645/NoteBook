@@ -21,7 +21,7 @@
     {
       "id": 4,
       "content": "hey",
-      "important": true,
+      "important": false,
       "date": "2019-12-16T08:29:11.533Z"
     },
     {
@@ -39,7 +39,7 @@
     {
       "id": 7,
       "content": "hey",
-      "important": true,
+      "important": false,
       "date": "2019-12-16T12:57:26.009Z"
     },
     {
@@ -63,25 +63,25 @@
     {
       "id": 11,
       "content": "hey ",
-      "important": false,
+      "important": true,
       "date": "2019-12-16T13:45:18.720Z"
     },
     {
       "id": 12,
       "content": "hello",
-      "important": false,
+      "important": true,
       "date": "2019-12-17T03:17:49.091Z"
     },
     {
       "id": 13,
       "content": "hey there ",
-      "important": true,
+      "important": false,
       "date": "2019-12-17T10:37:35.498Z"
     },
     {
       "id": 14,
       "content": "hey",
-      "important": false,
+      "important": true,
       "date": "2019-12-17T10:37:37.997Z"
     },
     {
@@ -113,6 +113,18 @@
       "content": "hey ",
       "important": false,
       "date": "2019-12-17T10:46:09.591Z"
+    },
+    {
+      "id": 21,
+      "content": "hye",
+      "important": true,
+      "date": "2019-12-19T10:42:24.939Z"
+    },
+    {
+      "id": 22,
+      "content": "",
+      "important": true,
+      "date": "2019-12-19T10:42:26.848Z"
     }
   ]
 }

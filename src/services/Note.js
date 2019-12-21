@@ -10,10 +10,12 @@ const getAll = () => {
         date: new Date().toISOString(),
         important: Math.random() > 0.5
     }
+    console.log('fetching dataa from server')
     return request.then(response => response.data.concat(dummy))
 }
 
 const create = (newObject) => {
+    console.log(`creating new object in server at ${baseUrl}`);
     const request = axios.post(baseUrl, newObject)
     return request.then(response => response.data)
 }

@@ -35,10 +35,10 @@ const App = () => {
 		noteService
 		.getAll()
 		.then(initialnotes => {
+			console.log('fetcing is finaly complete ugh!!')
 			setnotes(initialnotes)
 		})
-	}	
-
+	}
 	useEffect(fetchData, [])
 	
 	const handleNoteChange = (event) => {
@@ -50,7 +50,7 @@ const App = () => {
 		event.preventDefault()
 		if (duplicate(newNote, notes)) {
 			const message = `note with content "${newNote}" is duplicate`
-			Error(message ,seterrorMessage, setnewNote)
+			Error(message, seterrorMessage, setnewNote)
 			return
 		}
 		const newObject = {
@@ -59,10 +59,11 @@ const App = () => {
 			important: Math.random() > 0.5,
 			date: new Date().toISOString()
 		}
-		
+		console.log(newObject);
 		noteService
 		.create(newObject)
 		.then(newData => {
+			console.log('post request has been made to server')
 			setnotes(notes.concat(newData))
 			setnewNote('')
 		})
@@ -74,7 +75,7 @@ const App = () => {
 		
 		return(
 			<div className="error">
-				{message}	
+				{message}
 			</div>
 		)
 	}
