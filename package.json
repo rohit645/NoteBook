@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build:ui": "rm -rf build && cd ../../part2c/ && npm run build --prod && cp -r build ../part2c-backend/server",
+    "deploy": "git push heroku master",
+    "logs:prod": "heroku logs --tail",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"  
   },
   "author": "Rohit645",
   "license": "MIT",
