@@ -41,12 +41,12 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello world!!</h1>')
 })
 
-app.get('/notes', (req, res) => {
+app.get('/api/notes', (req, res) => {
     console.log('Hey i got a get request')
     res.json(notes)
 })
 
-app.get('/notes/:id', (req, res) => {
+app.get('/api/notes/:id', (req, res) => {
     const id = Number(req.params.id)
     const note = notes.find(note => note.id === id)
     // console.log(note);
@@ -56,7 +56,7 @@ app.get('/notes/:id', (req, res) => {
         res.status(404).end()
 }) 
 
-app.post('/notes', (req, res) => {
+app.post('/api//notes', (req, res) => {
     console.log('Hey i got a post request')
     const body = req.body
     if (!body.content) {
@@ -76,7 +76,7 @@ app.post('/notes', (req, res) => {
     res.json(note)
 })
 
-app.delete('/notes/:id', (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
     const id = Number(req.params.id)
     // const dummy_notes = notes
     notes = notes.filter(note => note.id !== id)
