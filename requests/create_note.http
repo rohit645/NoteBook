@@ -1,0 +1,16 @@
+post http://localhost:3001/api/notes 
+Content-Type: application/json
+
+{
+    "content": "VS code REST Client is pretty",
+    "important": false
+}
+
+### fetching all the content
+GET http://localhost:3001/api/notes
+
+
+### get particular object with paricular id
+GET http://localhost:3001/api/notes/5dff5c831a50733028ed3ba2
+
+
