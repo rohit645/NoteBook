@@ -14,3 +14,5 @@ GET http://localhost:3001/api/notes
 GET http://localhost:3001/api/notes/5dff5c831a50733028ed3ba2
 
 
+### Delete any particulat item usign it's id 
+DELETE  http://localhost:3001/api/notes/5e005e5b573308347f34cc5d
