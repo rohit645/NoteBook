@@ -2,7 +2,6 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const url = process.env.MONGODB_URI
 console.log(url)
-mongoose.set('useFindAndModify', false)
 
 mongoose.connect(url, {useNewUrlParser: true})
     .then(response => {
