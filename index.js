@@ -12,6 +12,7 @@ app.use(cors())
 app.use(express.static('build'))
 
 app.get('/api/notes', (req, res) => {
+    console.log('Got a get request!!')
     Note
     .find({})
     .then(notes => {
@@ -20,6 +21,7 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.get('/api/notes/:id', (req, res, next) => {
+    console.log('Got a get request for a particular ID !!')
     Note.findById(req.params.id)
     .then(note => {
         if(note)
@@ -31,6 +33,7 @@ app.get('/api/notes/:id', (req, res, next) => {
 }) 
 
 app.post('/api/notes', (req, res) => {
+    console.log('Got a POST request!!')
     const body = req.body
     if (!body.content) {
         return res.status(400).json({
@@ -47,9 +50,14 @@ app.post('/api/notes', (req, res) => {
         console.log('note saved successfully')
         res.json(savedItem.toJSON())
     })
+    .catch(error => {
+        console.log('error occured!!', error.message)
+        error => next(error)
+    })
 })
 
 app.delete('/api/notes/:id', (req, res, next) => {
+    console.log('Got a DELETE request!!')
     Note.findByIdAndRemove(req.params.id)
     .then(result => {
         res.status(204).send('Deleted successfully')
@@ -58,6 +66,7 @@ app.delete('/api/notes/:id', (req, res, next) => {
 })
 
 app.put('/api/notes/:id', (req, res, next) => {
+    console.log('Got a UPDATE request!!')
     const body = req.body
     
     const note = {
@@ -65,8 +74,9 @@ app.put('/api/notes/:id', (req, res, next) => {
         important: !body.important
     }
     Note.findByIdAndUpdate(req.params.id, note, {new: true})
-        .then(updatedNote => {
-            res.json(updatedNote.toJSON())
+        .then(updatedNote => updatedNote.toJSON())
+        .then(savedAndFormattedNote => {
+            res.json(savedAndFormattedNote)
         })
         .catch(error => next(error))
 })
@@ -86,8 +96,9 @@ const errorhandler = (error, req, res, next)  => {
     
     if(error.name === 'CastError' && error.kind === 'ObjectId') {
         return res.status(400).send({error: 'malformatted id '})
+    } else if (error.name === 'ValidationError') {
+        return res.status(400).json({error: error.message})
     }
-
     next(error)
 }
 app.use(errorhandler)
