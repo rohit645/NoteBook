@@ -1,5 +1,5 @@
-// const http = require('http')
 require('dotenv').config()
+const http = require('http')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -16,6 +16,7 @@ app.get('/api/notes', (req, res) => {
     Note
     .find({})
     .then(notes => {
+        console.log(notes)
         res.json(notes.map(note => note.toJSON()))
     })
 })

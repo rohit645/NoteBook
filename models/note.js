@@ -1,6 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
-const url = process.env.MONGODB_URI
+const url = `mongodb+srv://rohit645:Eatsleepcode123@cluster0-rzyu1.mongodb.net/note-app?retryWrites=true&w=majority`
+console.log(url)
 mongoose.set('useFindAndModify', false)
 
 mongoose.connect(url, {useNewUrlParser: true})
