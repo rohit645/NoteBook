@@ -2,8 +2,8 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Just testing promise chaining",
-    "important": false
+    "content": "Dunno know, why I am doing this over and again",
+    "userid" : "5e06cd3e33b5ee3df2d6179f"
 }
 
 ### fetching all the content
@@ -15,7 +15,7 @@ GET http://localhost:3001/api/notes/5dff5c831a50733028ed3ba2
 
 
 ### Delete any particulat item usign it's id 
-DELETE  http://localhost:3001/api/notes/5e0218638d558a00046a5d38
+DELETE  http://localhost:3001/api/notes/5e06cac4e25a8c4da039eaf7
 
 
 ### adding new user

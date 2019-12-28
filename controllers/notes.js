@@ -1,13 +1,10 @@
 const notesRouter = require('express').Router()
 const Note = require('../models/note')
+const User = require('../models/user')
 
 notesRouter.get('/', async (req, res) => {
-    const notes = await Note.find({})
+    const notes = await Note.find({}).populate('user')
     res.json(notes.map(note => note.toJSON()))
-    // Note.find({})    
-    //     .then(notes => {
-    //         res.json(notes.map(note => note.toJSON()))
-    //     })
 })
 
 notesRouter.get('/:id', async (req, res, next) => {
@@ -26,13 +23,17 @@ notesRouter.get('/:id', async (req, res, next) => {
 })
 
 notesRouter.post('/', async (req, res, next) => {
-    const body = req.body
+    body = req.body
+    const user = await User.findById(req.body.userid)
     const note = new Note({
         content: body.content,
         important: Math.important > 0.5,
-        date: new Date()
-	})
-	const savedNote = await note.save()
+        date: new Date(),
+        user: user._id
+    })
+    const savedNote = await note.save()
+    user.notes = user.notes.concat(savedNote._id)
+    await user.save()
 	res.json(savedNote.toJSON())
     // note.save()
     //     .then(savedNote => {
@@ -43,12 +44,10 @@ notesRouter.post('/', async (req, res, next) => {
 
 notesRouter.delete('/:id', (req, res, next) => {
 	Note.findByIdAndRemove(req.params.id)
-	res.status(204).end()
-	// Note.findByIdAndRemove(req.params.id)
-    //   .then(() => {
-    //     res.status(204).end()
-    //   })
-    //   .catch(error => next(error))
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(error => next(error))
 })
 
 notesRouter.put('/:id', (req, res, next) => {
