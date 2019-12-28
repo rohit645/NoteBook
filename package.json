@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "start": "NODE_ENV=production node index.js",
     "build:ui": "rm -rf build && cd ../../part2c/ && npm run build --prod && cp -r build ../part2c-backend/server",
     "deploy": "git push heroku master",
@@ -15,13 +15,16 @@
   "author": "Rohit645",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.8.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node"
