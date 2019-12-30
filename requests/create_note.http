@@ -6,6 +6,16 @@ Content-Type: application/json
     "userid" : "5e06cd3e33b5ee3df2d6179f"
 }
 
+
+### to implement login
+POST http://localhost:3001/api/login 
+Content-Type: application/json
+
+{
+    "username": "rohit645",
+    "password" : "secret"
+}
+
 ### fetching all the content
 GET http://localhost:3001/api/notes
 
