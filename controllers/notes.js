@@ -27,27 +27,31 @@ notesRouter.get('/:id', async (req, res, next) => {
 
 notesRouter.post('/', async (req, res, next) => {
 	const token = getTokenFrom(req)
+	const body = req.body
 
 	try {
-		decodedToken = token.verify()
+		const decodedToken = jwt.verify(token, process.env.SECRET)
+		if(!token || !decodedToken) {
+			return res.status(401).json({
+				error: 'Tokken missing or invalid!'
+			})
+		}
+		const user = await User.findById(decodedToken.id)
+	
+		const note = new Note({
+			content: body.content,
+			important: Math.important > 0.5,
+			date: new Date(),
+			user: user._id
+		})
+		
+		const savedNote = await note.save()
+		user.notes = user.notes.concat(savedNote._id)
+		await user.save()
+		res.json(savedNote.toJSON())
+	} catch(exception) {
+		next(exception)
 	}
-        body = req.body
-        const user = await User.findById(req.body.userid)
-        const note = new Note({
-                content: body.content,
-                important: Math.important > 0.5,
-                date: new Date(),
-                user: user._id
-        })
-        const savedNote = await note.save()
-        user.notes = user.notes.concat(savedNote._id)
-        await user.save()
-        res.json(savedNote.toJSON())
-        // note.save()
-        //     .then(savedNote => {
-        //         res.json(savedNote.toJSON())
-        //     })
-        //     .catch(error => next(error))
 })
 
 notesRouter.delete('/:id', (req, res, next) => {
@@ -59,13 +63,19 @@ notesRouter.delete('/:id', (req, res, next) => {
 })
 
 notesRouter.put('/:id', (req, res, next) => {
-        const body = req.body
+	console.log('Put request has been made!!')
+	const body = req.body
         const note = {
           content: body.content,
           important: body.important,
         }
-        const updatedNote = Note.findByIdAndUpdate(req.params.id, note, {new:true})
-        res.json(updatedNote.toJSON())
+    console.log(note)
+    Note.findByIdAndUpdate(req.params.id, note, {new:true})
+        .then(updatedNote => {
+            res.json(updatedNote.toJSON())
+        })
+        .catch(error => next(error))
+
         // Note.findByIdAndUpdate(req.params.id, note, { new: true })
         //   .then(updatedNote => {
         //     res.json(updatedNote.toJSON())
