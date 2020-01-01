@@ -4,7 +4,8 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const getTokenFrom = (req) => {
-	const authorization = require('authorization')
+    const authorization = req.get('authorization')
+    console.log('authorization', authorization)
 	if (authorization &&  authorization.toLowerCase().startsWith('bearer ')) {
 		return authorization.substring(7)
 	}
@@ -28,9 +29,11 @@ notesRouter.get('/:id', async (req, res, next) => {
 notesRouter.post('/', async (req, res, next) => {
 	const token = getTokenFrom(req)
 	const body = req.body
-
+    console.log('hey finally about to add a note...')
+    console.log('token', token)
 	try {
-		const decodedToken = jwt.verify(token, process.env.SECRET)
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        console.log('decoded token', decodedToken)
 		if(!token || !decodedToken) {
 			return res.status(401).json({
 				error: 'Tokken missing or invalid!'
@@ -75,12 +78,6 @@ notesRouter.put('/:id', (req, res, next) => {
             res.json(updatedNote.toJSON())
         })
         .catch(error => next(error))
-
-        // Note.findByIdAndUpdate(req.params.id, note, { new: true })
-        //   .then(updatedNote => {
-        //     res.json(updatedNote.toJSON())
-        //   })
-        //   .catch(error => next(error))
   })
 
 module.exports = notesRouter

@@ -24,7 +24,7 @@ loginRoute.post('/', async(req, res) => {
     }
 
     const token = jwt.sign(userToken, process.env.SECRET)
-
+    console.log('logged in from server side')
     res
     .status(200)
     .send({
