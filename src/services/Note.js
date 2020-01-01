@@ -1,32 +1,37 @@
 import React from 'react'
 import axios from 'axios'
-const baseUrl = 'https://immense-dawn-65532.herokuapp.com/notes'
+const baseUrl = '/api/notes'
+
+const token = null
+
+const setToken = (newtoken) => {
+	token = `bearer ${newtoken}`
+}
 
 const getAll = () => {
-    const request = (axios.get(baseUrl))
-    const dummy = {
-        id: 56,
-        content: 'This data doesnt exist in the database',
-        date: new Date().toISOString(),
-        important: Math.random() > 0.5
-    }
-    console.log('fetching dataa from server')
-    return request.then(response => response.data.concat(dummy))
+	console.log('Just now sent a GET request to server')
+	const request = (axios.get(baseUrl))
+	console.log('fetching data from server')
+	return request.then(response => response.data)
 }
 
 const create = (newObject) => {
-    console.log(`creating new object in server at ${baseUrl}`);
-    const request = axios.post(baseUrl, newObject)
-    return request.then(response => response.data)
+	
+	console.log(`creating new object in server at ${baseUrl}`);
+	const request = axios.post(baseUrl, newObject)
+	return request.then(response => response.data)
 }
 
 const update = (id, newObject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
-    return request.then(response => response.data)
+	console.log('Sent the put request')
+	const request = axios.put(`${baseUrl}/${id}`, newObject)
+	console.log('successfully made the put request!!')
+	return request.then(response => response.data)
 }
 
 export default {
     getAll,
     create,
-    update
+    update,
+    setToken
 }
