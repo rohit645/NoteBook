@@ -1,37 +1,29 @@
-import React from 'react'
 import axios from 'axios'
 const baseUrl = '/api/notes'
 
-const token = null
+let token = null 
 
-const setToken = (newtoken) => {
-	token = `bearer ${newtoken}`
+const setToken = newToken => {
+  token = `bearer ${newToken}`
 }
 
 const getAll = () => {
-	console.log('Just now sent a GET request to server')
-	const request = (axios.get(baseUrl))
-	console.log('fetching data from server')
-	return request.then(response => response.data)
+  const request = axios.get(baseUrl)
+  return request.then(response => response.data)
 }
 
-const create = (newObject) => {
-	
-	console.log(`creating new object in server at ${baseUrl}`);
-	const request = axios.post(baseUrl, newObject)
-	return request.then(response => response.data)
+const create = async newObject => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.post(baseUrl, newObject, config) 
+  return response.data
 }
 
 const update = (id, newObject) => {
-	console.log('Sent the put request')
-	const request = axios.put(`${baseUrl}/${id}`, newObject)
-	console.log('successfully made the put request!!')
-	return request.then(response => response.data)
+  const request = axios.put(`${ baseUrl } /${id}`, newObject)
+  return request.then(response => response.data)
 }
 
-export default {
-    getAll,
-    create,
-    update,
-    setToken
-}
+export default { getAll, create, update, setToken } 

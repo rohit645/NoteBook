@@ -1,14 +1,15 @@
-import react from 'react'
+import React from 'react'
 
-const Note = ({note, changeimportance}) => {
-    const label = note.important ? 'make not important' : 'make important'
-    if(!showAll && !note.important) return null
+const Note = ({ note, toggleImportance }) => {
+  const label = note.important
+    ? 'make not important' : 'make important'
 
-    return(
-	<li className="note">{note.content}
-	    <button onClick = {() => changeimportance(note.id)}> {label} </button>
-	</li>
-    )	
+  return (
+    <li className='note'>
+      {note.content}
+      <button onClick={toggleImportance}>{label}</button>
+    </li>
+  )
 }
 
 export default Note
